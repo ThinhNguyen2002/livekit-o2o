@@ -14,28 +14,6 @@ type User = {
   name: string;
 };
 
-// Sample user data
-const users: User[] = [
-  { id: 1, name: "Alice" },
-  { id: 2, name: "Bob" },
-  { id: 3, name: "Charlie" },
-  { id: 4, name: "Diana" },
-  { id: 5, name: "Eve" },
-];
-
-/**
- * Get a random user from the list of users.
- * @param userList Array of users.
- * @returns Random user's name.
- */
-export function getRandomUserName(userList: User[] = users): string {
-  if (userList.length === 0) {
-    throw new Error("The user list is empty.");
-  }
-  const randomIndex = Math.floor(Math.random() * userList.length);
-  return userList[randomIndex].name;
-}
-
 export default async function HostPage({
   searchParams: { at, rt },
 }: PageProps) {
