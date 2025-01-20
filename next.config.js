@@ -6,6 +6,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/',
+        destination: '/watch/o2o',
+        permanent: false,
+      },
+      {
         source: '/watch',
         destination: '/watch/o2o',
         permanent: false,
