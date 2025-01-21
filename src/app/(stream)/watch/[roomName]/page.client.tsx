@@ -19,6 +19,7 @@ import {
   Text,
   TextField,
 } from "@radix-ui/themes";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type User = {
@@ -55,7 +56,10 @@ export default function WatchPage({
   roomName: string;
   serverUrl: string;
 }) {
-  const [name, setName] = useState("");
+  const searchParams = useSearchParams();
+  const user = searchParams.get("user") ?? getRandomUserName();
+
+  const [name, setName] = useState(user);
   const [authToken, setAuthToken] = useState("");
   const [roomToken, setRoomToken] = useState("");
   const [loading, setLoading] = useState(false);
@@ -67,7 +71,7 @@ export default function WatchPage({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         room_name: roomName,
-        identity: name || getRandomUserName(),
+        identity: name,
       }),
     });
     const {
@@ -80,11 +84,9 @@ export default function WatchPage({
   };
 
   useEffect(() => {
-    if (roomName === "o2o") {
-      setLoading(true);
-      onJoin();
-    }
-  }, [roomName]);
+    setLoading(true);
+    onJoin();
+  }, []);
 
   if (!authToken || !roomToken) {
     return (
@@ -143,9 +145,9 @@ export default function WatchPage({
             </Box>
             <ReactionBar />
           </Flex>
-          <Box className="bg-accent-2 min-w-[280px] border-l border-accent-5">
+          {/* <Box className="bg-accent-2 min-w-[280px] border-l border-accent-5">
             <Chat />
-          </Box>
+          </Box> */}
         </Flex>
       </LiveKitRoom>
     </TokenContext.Provider>

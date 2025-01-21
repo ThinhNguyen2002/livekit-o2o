@@ -7,7 +7,9 @@ import { TokenContext } from "@/components/token-context";
 import { CreateStreamResponse } from "@/lib/controller";
 import { LiveKitRoom } from "@livekit/components-react";
 import { Box, Flex } from "@radix-ui/themes";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getRandomUserName } from "../watch/[roomName]/page.client";
 
 export default function HostPage({
   authToken,
@@ -18,6 +20,12 @@ export default function HostPage({
   roomToken: string;
   serverUrl: string;
 }) {
+  const searchParams = useSearchParams();
+  const params = useParams();
+
+  const user = searchParams.get("user") ?? getRandomUserName();
+  const hostId = searchParams.get("room") ?? "o2o";
+
   const [autoGenRoomToken, setAutoGenRoomToken] = useState<string | null>(null);
   const [autoGenAuthToken, setAutoGenAuthToken] = useState<string | null>(null);
 
@@ -27,9 +35,9 @@ export default function HostPage({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          room_name: "o2o",
+          room_name: hostId,
           metadata: {
-            creator_identity: "o2o",
+            creator_identity: user,
             enable_chat: true,
             allow_participation: true,
           },
@@ -57,9 +65,9 @@ export default function HostPage({
             </Box>
             <ReactionBar />
           </Flex>
-          <Box className="bg-accent-2 min-w-[280px] border-l border-accent-5 hidden sm:block">
+          {/* <Box className="bg-accent-2 min-w-[280px] border-l border-accent-5 hidden sm:block">
             <Chat />
-          </Box>
+          </Box> */}
         </Flex>
       </LiveKitRoom>
     </TokenContext.Provider>
