@@ -63,7 +63,7 @@ export default function HostPage({
             <Box className="flex-1 bg-gray-1">
               <StreamPlayer isHost />
             </Box>
-            <ReactionBar />
+            {/* <ReactionBar /> */}
           </Flex>
           {/* <Box className="bg-accent-2 min-w-[280px] border-l border-accent-5 hidden sm:block">
             <Chat />

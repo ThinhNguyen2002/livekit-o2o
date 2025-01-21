@@ -143,7 +143,7 @@ export default function WatchPage({
             <Box className="flex-1 bg-gray-1">
               <StreamPlayer />
             </Box>
-            <ReactionBar />
+            {/* <ReactionBar /> */}
           </Flex>
           {/* <Box className="bg-accent-2 min-w-[280px] border-l border-accent-5">
             <Chat />
