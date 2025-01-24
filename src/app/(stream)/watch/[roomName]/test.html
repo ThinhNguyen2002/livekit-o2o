@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Embed Live Camera</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    iframe {
+      border: none;
+      width: 80%;
+      height: 80%;
+    }
+  </style>
+</head>
+
+<body>
+  <video id="videoElement" autoplay playsinline></video>
+  <button id="toggleCameraButton">Chuyển đổi Camera</button>
+
+
+  <iframe src="https://livekit-o2o-cxeg.vercel.app/host?room=booking&user=Alice"
+    allow="camera; microphone; fullscreen"></iframe>
+  <iframe src="https://livekit-o2o-cxeg.vercel.app/watch/booking?user=Charlie"
+    allow="camera; microphone; fullscreen"></iframe>
+
+</body>
+
+</html>
