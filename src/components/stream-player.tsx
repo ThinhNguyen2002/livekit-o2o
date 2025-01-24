@@ -72,7 +72,12 @@ export function StreamPlayer({ isHost = false }) {
   useEffect(() => {
     if (canHost) {
       const createTracks = async () => {
-        const tracks = await createLocalTracks({ audio: true, video: true });
+        const tracks = await createLocalTracks({
+          audio: true,
+          video: {
+            resolution: { width: 1280, height: 720, frameRate: 30 },
+          },
+        });
         const camTrack = tracks.find((t) => t.kind === Track.Kind.Video);
         if (camTrack && localVideoEl?.current) {
           camTrack.attach(localVideoEl.current);
@@ -110,8 +115,6 @@ export function StreamPlayer({ isHost = false }) {
   };
 
   const [isFrontCamera, setIsFrontCamera] = useState(true);
-
-  console.log("cameras", cameras);
 
   useEffect(() => {
     if (localVideoTrack) {
