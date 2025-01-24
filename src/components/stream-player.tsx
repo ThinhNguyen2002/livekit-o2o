@@ -77,15 +77,41 @@ export function StreamPlayer({ isHost = false }) {
         if (camTrack && localVideoEl?.current) {
           camTrack.attach(localVideoEl.current);
         }
+
         setLocalVideoTrack(camTrack as LocalVideoTrack);
       };
       void createTracks();
     }
   }, [canHost]);
 
-  const { activeDeviceId: activeCameraDeviceId } = useMediaDeviceSelect({
+  const {
+    devices: cameras,
+    activeDeviceId: activeCameraDeviceId,
+    setActiveMediaDevice,
+  } = useMediaDeviceSelect({
     kind: "videoinput",
   });
+
+  const switchCamera = () => {
+    if (!localVideoTrack) return;
+
+    // Get the opposite camera (front or rear)
+    const nextCameraDevice = cameras.find(
+      (camera) =>
+        camera.deviceId !== activeCameraDeviceId &&
+        camera.label.toLowerCase().includes(isFrontCamera ? "back" : "front")
+    );
+
+    if (nextCameraDevice) {
+      localVideoTrack.setDeviceId(nextCameraDevice.deviceId);
+      setActiveMediaDevice(nextCameraDevice.deviceId);
+      setIsFrontCamera(!isFrontCamera);
+    }
+  };
+
+  const [isFrontCamera, setIsFrontCamera] = useState(true);
+
+  console.log("cameras", cameras);
 
   useEffect(() => {
     if (localVideoTrack) {
@@ -201,6 +227,14 @@ export function StreamPlayer({ isHost = false }) {
               ) : (
                 "Loading..."
               )}
+            </Button>
+            <Button
+              size="1"
+              variant="soft"
+              onClick={switchCamera}
+              disabled={cameras.length < 2}
+            >
+              Switch Camera
             </Button>
             {roomName && canHost && (
               <Flex gap="2">
